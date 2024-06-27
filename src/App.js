@@ -24,6 +24,7 @@ function App() {
 
 
 
+<<<<<<< HEAD
       {/* <MyNavbar /> */}
       <Routes>
         <Route path="/" element={<><MyNavbar /> <HomePage/></>} />
@@ -36,6 +37,20 @@ function App() {
         <Route path="/login" element={<><MyNavbar /><LoginPage /></>} />
         <Route path="/register" element={<><MyNavbar /><RegisterPage /></>} />
         <Route path="*" element={<><MyNavbar /><NotFoundPage /></>} /> {/* Catch-all route */}
+=======
+      <MyNavbar />
+      <Routes>
+        <Route path="/" element={<HomePage/>} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/book/list" element={<ListingPage />} />
+        <Route path="/book/view/:bookId" element={<BookDetailPage />} />
+        <Route path="/book/mybooks" element={<OrdersPage />} />
+        <Route path="/books/orders/:bookId" element={<ViewOrderDetails />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="*" element={<NotFoundPage />} /> {/* Catch-all route */}
+>>>>>>> b20431f (hello)
       </Routes>
       
     </div>

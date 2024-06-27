@@ -5,6 +5,7 @@ import Navbar from "react-bootstrap/Navbar";
 import { useFirebase } from "../Firebase";
 import { useNavigate } from "react-router-dom";
 
+<<<<<<< HEAD
 
 const MyNavbar = () => {
 
@@ -18,6 +19,23 @@ const MyNavbar = () => {
     setIsLoggedIn(firebase.isLoggedIn);
   }, [firebase.isLoggedIn]);
 
+=======
+const MyNavbar = () => {
+
+    const firebase = useFirebase();
+  const navigate = useNavigate();
+
+  const [isLoggedIn, setIsLoggedIn] = useState(null); // initialize with null
+
+  const checkLoginStatus = async () => {
+    const userLoggedIn = await firebase.isLoggedIn();
+    setIsLoggedIn(userLoggedIn);
+  };
+
+  useEffect(() => {
+    checkLoginStatus(); // check login status when component mounts
+  }, []);
+>>>>>>> b20431f (hello)
 
   const handleLogout = async () => {
     try {
@@ -30,6 +48,7 @@ const MyNavbar = () => {
 
   return (
     <Navbar bg="dark" variant="dark">
+<<<<<<< HEAD
       <Container style={{ display: 'flex', justifyContent: 'space-between' }}>
         
         {/* <Nav className="me-auto"> */}
@@ -39,6 +58,18 @@ const MyNavbar = () => {
           {/* </Nav> */}
           <Nav className="ms-auto">
           {isLoggedIn ? (
+=======
+      <Container  style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Nav className="me-auto">
+          <Nav.Link href="/">Home</Nav.Link>
+          <Nav.Link href="/book/list">Add Listing</Nav.Link>
+          <Nav.Link href="/book/mybooks">My Books</Nav.Link>
+        </Nav>
+
+        
+//           <Nav className="ms-auto">
+//           {isLoggedIn ? (
+>>>>>>> b20431f (hello)
             // Show Logout button if logged in
             <button className="btn btn-light" onClick={handleLogout}>Logout</button>
           ) : (
@@ -49,10 +80,36 @@ const MyNavbar = () => {
             </>
           )}
         </Nav>
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> b20431f (hello)
       </Container>
     </Navbar>
   );
 };
 
 export default MyNavbar;
+<<<<<<< HEAD
+=======
+
+
+
+
+
+//   return (
+//     <Navbar bg="dark" variant="dark">
+//       <Container>
+        
+//         {/* <Nav className="me-auto"> */}
+//           <Nav.Link href="/">Home</Nav.Link>
+//           <Nav.Link href="/book/list">Add Listing</Nav.Link>
+//           <Nav.Link href="/book/orders">Orders</Nav.Link>
+//           
+        
+//       </Container>
+//     </Navbar>
+//   );
+// };
+>>>>>>> b20431f (hello)
