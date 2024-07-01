@@ -4,7 +4,7 @@ import {
   check_data_is_exist,
   check_username_is_exist,
   Create_Account,
-  get_userdata,
+  get_user_data1,
 } from "../context/database";
 // import { Helmet } from "react-helmet";
 import { useNavigate } from "react-router-dom";
@@ -44,7 +44,7 @@ const CreateAccount = () => {
       username: formdata.username,
       profileimg: auth.currentUser.photoURL || null,
     });
-    setuserdata(await get_userdata(auth?.currentUser?.uid));
+    setuserdata(await get_user_data1(auth?.currentUser?.uid));
     // pregress.finish();
     navigate("/");
   };

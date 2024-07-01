@@ -28,6 +28,7 @@ const MyNavbar = () => {
   const handleLogout = async () => {
     try {
       await logout();
+      
       setUserLoggedIn(false);
       navigate("/login");
     } catch (error) {

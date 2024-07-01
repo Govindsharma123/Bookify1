@@ -8,11 +8,23 @@ const OrdersPage = () => {
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
-    if (firebase.isLoggedIn)
-      firebase
-        .fetchMyBooks(firebase.user.uid)
-        ?.then((books) => setBooks(books.docs));
+    const fetchBooks = async () => {
+      if (firebase.isLoggedIn) {
+        
+        try {
+          const booksSnapshot = await firebase.fetchMyBooks(firebase.user.uid)
+        
+          ?.then(books)
+          setBooks(booksSnapshot.docs); // Assuming fetchMyBooks returns a Firestore QuerySnapshot
+        } catch (error) {
+          console.error("Error fetching books:", error);
+        }
+      }
+    };
+
+    fetchBooks();
   }, [firebase]);
+
 
   // console.log(books);
 

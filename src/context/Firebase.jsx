@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect,useCallback } from "react";
 
-import { auth } from "./main";
+import { auth, logout } from "./main";
 import { useNavigate } from "react-router-dom";
 import {
   getBookById,
@@ -10,9 +10,9 @@ import {
   listAllBooks,
   placeOrder,
   handleCreateNewListing,
-  get_userdata,
-  updateuserdata,
   get_user_data1,
+  updateuserdata
+  
 } from "./database";
 import { toast } from "react-toastify";
 
@@ -61,7 +61,6 @@ export const FirebaseProvider = (props) => {
     <UserDataContext.Provider
       value={{
         isLoggedIn: () => !!auth.currentUser,
-        
         handleCreateNewListing,
         listAllBooks,
         getImageURL,
@@ -69,7 +68,8 @@ export const FirebaseProvider = (props) => {
         placeOrder,
         fetchMyBooks,
         getOrders,
-        
+        logout,
+        get_user_data1
         
       }}
     >

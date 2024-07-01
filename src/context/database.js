@@ -62,21 +62,22 @@ export const Create_Account = async({
 //   }
 // };
 
-export const get_userdata = async (uid) => {
-  try {
-    const q = await query(user, where("uid", "==", uid));
-    const doc_refs = await getDocs(q);
-    const res = [];
-    doc_refs.forEach((snapshot) => {
-      res.push({
-        ...snapshot.data(),
-      });
-    });
-    return res[0];
-  } catch (err) {
-    console.error(err);
-  }
-};
+// export const get_userdata = async (uid) => {
+//   console.log(uid)
+//   try {
+//     const q = await query(user, where("uid", "==", uid));
+//     const doc_refs = await getDocs(q);
+//     const res = [];
+//     doc_refs.forEach((snapshot) => {
+//       res.push({
+//         ...snapshot.data(),
+//       });
+//     });
+//     return res[0];
+//   } catch (err) {
+//     console.error(err);
+//   }
+// };
 export const get_user_data1 = async () => {
   try {
     let user = auth.currentUser;
@@ -84,6 +85,7 @@ export const get_user_data1 = async () => {
     if (user) {
       // User is signed in
       const { uid, displayName, email } = user;
+      console.log(user)
       return { uid, displayName, email };
     } else {
       // No user is signed in
@@ -97,6 +99,7 @@ export const get_user_data1 = async () => {
 
 export const get_userdatabyname = async (username) => {
   try {
+    console.log(username)
     const q = await query(user, where("username", "==", username.trim()));
     const doc_refs = await getDocs(q);
     const res = [];
@@ -128,7 +131,7 @@ export const updateuserdata = async (userdata) => {
 
 export const check_data_is_exist = async (uid) => {
   try {
-    const data = await get_userdata(uid);
+    const data = await get_user_data1(uid);
     return !!data;
   } catch (err) {
     console.error(err);
@@ -170,6 +173,8 @@ export const placeOrder = async (bookId, qty) => {
 
 export const fetchMyBooks = async (userId) => {
   const collectionRef = collection(firestore, "books");
+  console.log(collectionRef)
+  
   const q = query(collectionRef, where("userID", "==", userId));
 
   const result = await getDocs(q);

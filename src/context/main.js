@@ -6,6 +6,7 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   sendEmailVerification,
+  signOut
 } from "firebase/auth";
 
 import { initializeApp } from "firebase/app";
@@ -85,5 +86,14 @@ export const forget_password = async (email ) => {
   }
 };
 
+// Logout function
+export const logout = async () => {
+  try {
+    await signOut(auth);
+  } catch (err) {
+    console.error("Logout error:", err);
+    throw err;
+  }
+};
 
 export {auth, firebaseApp, firestore,storage};
