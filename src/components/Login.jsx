@@ -1,151 +1,133 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useFirebase } from "../context/Firebase";
-import { firebaseAuth,signinWithGoogle } from "../context/main";
-import PhoneInput from 'react-phone-input-2'
-import 'react-phone-input-2/lib/style.css'
+import { signinWithGoogle, auth, forget_password } from "../context/main";
+// import GoogleIcon from "@mui/icons-material/Google";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
-import { Button,TextField } from "@mui/material";
-import { RecaptchaVerifier,signInWithPhoneNumber } from "firebase/auth";
+const Login = ({ onenter, role }) => {
+  const [email, setemail] = useState("");
+  const [pass, setpass] = useState("");
 
+  const navigate = useNavigate();
 
-
-  const Login = () => {
-    const firebase = useFirebase();
-   
-
-    const [phone, setPhone] = useState("");
-    const [man, setMan] = useState(null);
-    const [otp, setOtp] = useState("")
-    const navigate = useNavigate();
-  
-    const setupRecaptcha = () => {
-      if (!window.recaptchaVerifier) {
-        window.recaptchaVerifier = new RecaptchaVerifier('recaptcha', {
-          'size': 'normal',  // Change this to 'normal' or 'compact'
-          'callback': (response) => {
-            // reCAPTCHA solved, allow signInWithPhoneNumber.
-            console.log('reCAPTCHA solved:', response);
-          },
-          'expired-callback': () => {
-            // Reset reCAPTCHA if it expires
-            window.recaptchaVerifier.clear();
-            delete window.recaptchaVerifier;
-            
-          }
-        }, firebaseAuth);
-        window.recaptchaVerifier.render().then((widgetId) => {
-          window.recaptchaWidgetId = widgetId;
-        });
-      }
-    };
-  
-    const sendOtp = async () => {
-      try {
-        setupRecaptcha();
-        const appVerifier = window.recaptchaVerifier;
-        const confirmation = await signInWithPhoneNumber(firebaseAuth, phone, appVerifier);
-        setMan(confirmation);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-   const verifyOtp = async()=>{
-    try{
-      await man.confirm(otp)
-      navigate("/");
-    }catch(err){
-      console.log(err)
-    }
-   }
-
-  
+  const handelsubmit = async () => {
+    await onenter(email, pass);
+  };
 
   const handelgooglesignup = async () => {
     const data = await signinWithGoogle();
-    navigate("/");
-    
+
+    {
+      data && role === "signup"
+        ? navigate("./create-account")
+        : navigate("/");
+    }
   };
 
-  // useEffect(() => {
-  //   const unsubscribe = firebaseAuth.onAuthStateChanged(() => {
-  //     firebaseAuth.currentUser && navigate("/home");
-  //   });
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(() => {
+      auth.currentUser && navigate("/");
+    });
 
-  //   return () => unsubscribe();
-  // }, []);
-
+    return () => unsubscribe();
+  }, []);
 
   return (
     <section className="flex post flex-col sm:w-3/4  p-4 w-full">
-      <h3 className="text-3xl my-2 font-bold "> Login </h3>
-      <div className="container mt-5">
-
-    
-       
-      
-      <PhoneInput
-          country={"us"}
-          value={phone}
-          className="px-3  text-xl p-2 border-1 border-black rounded-lg my-2 border text-black  "
-          onChange={(phone) => setPhone("+" + phone)}
-          required
-      ></PhoneInput>
-        <br/>
-      <Button onClick={sendOtp} variant="contained" sx ={{marginTop:"10px"}}>Send OTP</Button>
-      <div id="recaptcha"></div>
-      <br/>
-      <TextField onChange={(e)=>setOtp(e.target.value)}  variant="outlined" size="small" label="Enter OTP"></TextField><br/>
-      <Button onClick={verifyOtp} variant="contained" sx={{marginTop:"10px"}} color="success" >Verify OTP</Button><br/>
-
-        {/* <button type="submit" className="rounded-2xl w-80 my-4 text-xl p-1 capitalize bg-sky-600  m-auto hover:scale-105 transition-all ease" onClick={handelsubmit}>
-          Login
-        </button> */}
-      
-      <h1 className="mt-5 mb-5 ">OR</h1>
-
+      <h3 className="text-3xl my-2 font-bold "> join now </h3>
       <div className=" my-5 sm: bg-white text-black text-center hover:scale-105 transition-all ease font-semibold outline rounded-2xl ">
-          <button
+        <button
           className="m-auto capitalize flex p-2 px-6 text-base sm:text-xl "
           onClick={handelgooglesignup}
-          >
+        >
           {/* <i className="mx-2">
             <GoogleIcon />{" "}
           </i> */}
-          sign-in with Google
-          </button>
-      </div>
-
-      
-      
-
-        <label className="my-3">don't have an account ? </label>
-        <h3 className="text-3xl my-2 font-bold "> join now </h3>
-
-      <div className=" my-5 sm: bg-white text-black text-center hover:scale-105 transition-all ease font-semibold outline rounded-2xl ">
-      
-        <div className="my-2  capitalize text-base sm:text-xl flex flex-col ">
-          
-          <button
-          className="m-auto capitalize flex p-2 px-6 text-base sm:text-xl "
-          onClick={handelgooglesignup}
-          >
-          <i className="mx-2">
-            {/* <GoogleIcon />{" "} */}
-          </i>
           sign-up with Google
-          </button>
-        </div>
-        
+        </button>
+      </div>
+      <div className="my-4 ">
+        <hr />
+        <h2 className="text-xl text-center py-2 font-semibold mx-4">
+          or , continue with email
+        </h2>
+        <hr />
       </div>
 
-
-    </div>
-
+      <form
+        className="flex  flex-col  "
+        onSubmit={(e) => {
+          e.preventDefault();
+          handelsubmit();
+        }}
+      >
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          className="px-3  text-xl p-2 border-1 border-black rounded-lg my-2 border text-black  "
+          onChange={(e) => setemail(e.target.value)}
+          required
+        ></input>
+        <input
+          type="password"
+          placeholder="password"
+          value={pass}
+          className="px-3 text-xl p-2 border-1 border-black rounded-lg my-2 border text-black "
+          onChange={(e) => setpass(e.target.value)}
+          required
+        ></input>
+        <label className="text-xs sm:text-sm my-3 font-serif">
+          By signing up, you agree to the Terms of Service and Privacy Policy,
+          including Cookie Use.
+        </label>
+        <button
+          type="submit"
+          className="rounded-2xl w-80 my-4 text-xl p-1 capitalize bg-sky-600  m-auto hover:scale-105 transition-all ease"
+        >
+          {role === "login" ? "login" : "sign-up"}
+        </button>
+        {role==="login"&&<button
+          onClick={async () => {
+            if (email === "") toast.error("plase enter your email address");
+            else {
+              const data = await forget_password(email);
+              console.log(data);
+              if (!data) toast.error("Email not found");
+              else toast.success("Email sent , please check your email box");
+            }
+          }}
+          className="mr-auto"
+          type="button"
+        >
+          Forget password ?
+        </button>}
+      </form>
+      {role === "signup" ? (
+        <div className="my-3  capitalize text-base sm:text-xl flex flex-col ">
+          <label className="my-3">already have an account ? </label>
+          <Link
+            to="/login"
+            className="my-3 w-80 mx-auto border-1 rounded-2xl text-center border font-semibold py-1 text-sky-600 capitalize"
+          >
+            sign-in
+          </Link>
+        </div>
+      ) : (
+        <div className="my-2  capitalize text-base sm:text-xl flex flex-col ">
+          <label className="my-3">don't have an account ? </label>
+          <Link
+            to="/"
+            className="my-3 w-80 mx-auto border-1 rounded-2xl border text-center font-semibold py-1 text-sky-600 capitalize"
+          >
+            sign-up
+          </Link>
+        </div>
+      )}
     </section>
-      );
+  );
 };
-
 export default Login;
+
 

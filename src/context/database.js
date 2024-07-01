@@ -1,4 +1,4 @@
-import { firebaseAuth, firestore, storage } from "./main";
+import { auth, firestore, storage } from "./main";
 import {
   getFirestore,
   collection,
@@ -77,10 +77,43 @@ export const get_userdata = async (uid) => {
     console.error(err);
   }
 };
+export const get_user_data1 = async () => {
+  try {
+    let user = auth.currentUser;
+    
+    if (user) {
+      // User is signed in
+      const { uid, displayName, email } = user;
+      return { uid, displayName, email };
+    } else {
+      // No user is signed in
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    throw error;
+  }
+};
+
+export const get_userdatabyname = async (username) => {
+  try {
+    const q = await query(user, where("username", "==", username.trim()));
+    const doc_refs = await getDocs(q);
+    const res = [];
+    doc_refs.forEach((country) => {
+      res.push({
+        ...country.data(),
+      });
+    });
+    return res[0];
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 export const updateuserdata = async (userdata) => {
   try {
-    const q = await query(user, where("uid", "==", firebaseAuth.currentUser.uid));
+    const q = await query(user, where("uid", "==", auth.currentUser.uid));
     const doc_refs = await getDocs(q);
     var docid;
     doc_refs.forEach((snapshot) => {
@@ -97,6 +130,13 @@ export const check_data_is_exist = async (uid) => {
   try {
     const data = await get_userdata(uid);
     return !!data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+export const check_username_is_exist = async (username) => {
+  try {
+    return await get_userdatabyname(username);
   } catch (err) {
     console.error(err);
   }

@@ -1,6 +1,6 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect,useCallback } from "react";
 
-import { firebaseAuth } from "./main";
+import { auth } from "./main";
 import { useNavigate } from "react-router-dom";
 import {
   getBookById,
@@ -12,31 +12,32 @@ import {
   handleCreateNewListing,
   get_userdata,
   updateuserdata,
+  get_user_data1,
 } from "./database";
 import { toast } from "react-toastify";
 
-export const FirebaseContext = createContext();
+export const UserDataContext = createContext();
 
 
 
-export const useFirebase = () => useContext(FirebaseContext);
+export const useFirebase = () => useContext(UserDataContext);
 
 
 
 // const googleProvider = new GoogleAuthProvider();
 
-export const FirebaseProvider = (props,value,setvalue) => {
-  const [userdata, setuserdata] = useState(firebaseAuth.currentUser);
+export const FirebaseProvider = (props) => {
+  const [userdata, setuserdata] = useState(auth.currentUser);
 
   useEffect(() => {
     const datalogin = async () => {
-      firebaseAuth.onAuthStateChanged(async (user) => {
-        console.log(firebaseAuth);
-        if (user) {
-          let data = await get_userdata(user?.uid);
-          if (data?.username) {
+      auth.onAuthStateChanged(async (userdata) => {
+        if (userdata) {
+          let data=await get_user_data1()
+          // let data = await get_userdata(userdata?.uid);
+          if (data?.displayName) {
             setuserdata(data);
-            setvalue(data);
+            // setvalue(data);
           } //else {
           //   navigate("/register");
           // }
@@ -57,8 +58,10 @@ export const FirebaseProvider = (props,value,setvalue) => {
 
 
   return (
-    <FirebaseContext.Provider
+    <UserDataContext.Provider
       value={{
+        isLoggedIn: () => !!auth.currentUser,
+        
         handleCreateNewListing,
         listAllBooks,
         getImageURL,
@@ -71,10 +74,11 @@ export const FirebaseProvider = (props,value,setvalue) => {
       }}
     >
       {props.children}
-    </FirebaseContext.Provider>
+    </UserDataContext.Provider>
   );
 };
-export const useFirebaseContext = () => {
-  const value = useContext(FirebaseContext);
+
+export const useUserdatacontext = () => {
+  const value = useContext(UserDataContext);
   return value;
 };

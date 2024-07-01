@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react";
-import { auth } from "../service/Auth";
+import { auth } from "../context/main";
 import {
   check_data_is_exist,
   check_username_is_exist,
   Create_Account,
   get_userdata,
-} from "../service/Auth/database";
-import { Helmet } from "react-helmet";
+} from "../context/database";
+// import { Helmet } from "react-helmet";
 import { useNavigate } from "react-router-dom";
-import { useUserdatacontext } from "../service/context/usercontext";
-import ProgressBar from "@badrap/bar-of-progress";
+import { useUserdatacontext } from "../context/Firebase";
+// import ProgressBar from "@badrap/bar-of-progress";
 
 const CreateAccount = () => {
   const navigate = useNavigate();
   const { setuserdata } = useUserdatacontext();
-  const pregress = new ProgressBar();
+  // const pregress = new ProgressBar();
   const [isusernameexist, setisusernameexist] = useState(false);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const CreateAccount = () => {
   });
 
   const checkdata = async () => {
-    pregress.start();
+    // pregress.start();
     await Create_Account({
       email: auth.currentUser.email,
       uid: auth.currentUser.uid,
@@ -45,8 +45,8 @@ const CreateAccount = () => {
       profileimg: auth.currentUser.photoURL || null,
     });
     setuserdata(await get_userdata(auth?.currentUser?.uid));
-    pregress.finish();
-    navigate("/home");
+    // pregress.finish();
+    navigate("/");
   };
 
   const handelchange = (e) => {
@@ -56,7 +56,7 @@ const CreateAccount = () => {
 
   return (
     <div className="capitalize sm:px-5 px-3">
-      <Helmet>
+      {/* <Helmet>
         <title>Create account | socilaite</title>
         <meta name="description" content="Create account" />
         <link rel="canonical" href="/Create account" />
@@ -65,7 +65,7 @@ const CreateAccount = () => {
         <meta name="keywords" content="Create account" />
         <meta name="author" content="Create account" />
         <meta name="language" content="EN" />
-      </Helmet>
+      </Helmet> */}
       <h1 className="text-4xl md:text-6xl sm:my-12 my-5 font-bold ">
         create an account with us{" "}
       </h1>
