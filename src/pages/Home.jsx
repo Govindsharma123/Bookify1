@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import CardGroup from "react-bootstrap/CardGroup";
 
 import BookCard from "../components/Card";
-import { useFirebase } from "../Firebase";
+import { useFirebase } from "../context/Firebase";
 
 const HomePage = () => {
   const firebase = useFirebase();

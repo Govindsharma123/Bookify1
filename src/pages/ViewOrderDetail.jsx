@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useFirebase } from "../Firebase";
+import { useFirebase } from "../context/Firebase";
 const ViewOrderDetails = () => {
   const params = useParams();
   const firebase = useFirebase();

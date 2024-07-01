@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
-import { useFirebase } from "../Firebase";
+import { useFirebase } from "../context/Firebase";
 
 const ListingPage = () => {
   const firebase = useFirebase();

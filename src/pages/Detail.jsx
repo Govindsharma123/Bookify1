@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useParams } from "react-router-dom";
-import { useFirebase } from "../Firebase";
+import { useFirebase } from "../context/Firebase";
 
 const BookDetailPage = () => {
   const params = useParams();
