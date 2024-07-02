@@ -3,18 +3,24 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
 import { useFirebase } from "../context/Firebase";
+import { handleCreateNewListing } from "../context/database";
+import { useNavigate } from "react-router-dom";
 
 const ListingPage = () => {
   const firebase = useFirebase();
+  const Navigate = useNavigate();
 
   const [name, setName] = useState("");
   const [isbnNumber, setIsbnNumber] = useState("");
   const [price, setPrice] = useState("");
-  const [coverPic, setCoverPic] = useState("");
+  const [coverPic, setCoverPic] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     await firebase.handleCreateNewListing(name, isbnNumber, price, coverPic);
+    
+    Navigate('/book/orders');
   };
 
   return (
@@ -27,6 +33,7 @@ const ListingPage = () => {
             value={name}
             type="text"
             placeholder="Book name"
+            required
           />
         </Form.Group>
 
@@ -37,6 +44,7 @@ const ListingPage = () => {
             value={isbnNumber}
             type="text"
             placeholder="ISBN Number"
+            required
           />
         </Form.Group>
 
@@ -47,6 +55,7 @@ const ListingPage = () => {
             value={price}
             type="text"
             placeholder="Enter Price"
+            required
           />
         </Form.Group>
 
@@ -55,6 +64,7 @@ const ListingPage = () => {
           <Form.Control
             onChange={(e) => setCoverPic(e.target.files[0])}
             type="file"
+            required
           />
         </Form.Group>
 

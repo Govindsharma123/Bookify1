@@ -8,14 +8,34 @@ const ViewOrderDetails = () => {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    firebase.getOrders(params.bookId).then((orders) => setOrders(orders.docs));
-  }, []);
+    const fetchOrders = async () => {
+      try {
+        const ordersSnapshot = await firebase.getOrders(params.bookId);
+        console.log("Orders Snapshot:",ordersSnapshot);
+
+        // Map the documents to data and set state
+        const ordersData = ordersSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setOrders(ordersData);
+
+        
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+      }
+    };
+
+    fetchOrders();
+  }, [params.bookId, firebase]);
+
 
   return (
     <div className="container mt-3">
       <h1>Orders</h1>
       {orders.map((order) => {
         const data = order.data();
+        console.log(data)
         return (
           <div
             key={order.id}

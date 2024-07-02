@@ -4,19 +4,20 @@ import { Helmet } from "react-helmet";
 import { signinwithemail } from "../context/main";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+
 export const Loginpage = () => {
   const navigate = useNavigate();
   
   const handelsubmit = async (email, pass) => {
     const data = await signinwithemail(email, pass);
     data && toast.success("login successfully ");
-    data && navigate("/home");
+    data && navigate("/books");
     !data && toast.error("Email adrress and password may be incorrect");
   };
   return (
     <div className="w-full post sm:mt-5 flex p-2 capitalize">
       <Helmet>
-        <title>login | socilaite</title>
+        <title>login | Book-Bank</title>
         <meta name="description" content="login" />
         <link rel="canonical" href="/login" />
         <meta name="robots" content="index, follow" />
@@ -27,11 +28,13 @@ export const Loginpage = () => {
       </Helmet>
 
       <div className=" m-auto outline xl:block hidden outline-gray-900">
-        <img
-          className="w-80"
-          src="https://cdn.dribbble.com/users/4329662/screenshots/15802739/socialite_v3_final-08_copy.png"
-          alt=""
-        />
+        <img className="w-80 h-80 mt-50px"  src="/images/webLogo.jpg" alt="logo"/>
+        {/* <iframe
+    className="w-80"
+    src="https://via.placeholder.com/150.png?text=Book+Bank+Logo"
+    alt="BOOK BANK logo"
+    style={{ border: 'none' }}
+  >Book-Bank</iframe> */}
       </div>
       <div>
         <h1 className="text-5xl text-left my-3  font-bold ">login</h1>

@@ -20,7 +20,7 @@ const CreateAccount = () => {
   useEffect(() => {
     const data = async () => {
       if (await check_data_is_exist(auth?.currentUser?.uid)) {
-        navigate("/home");
+        navigate("/books");
       }
     };
     data();

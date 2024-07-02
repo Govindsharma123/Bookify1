@@ -4,7 +4,7 @@ import CardGroup from "react-bootstrap/CardGroup";
 import BookCard from "../components/Card";
 import { useFirebase } from "../context/Firebase";
 
-const HomePage = () => {
+const BookPage = () => {
   const firebase = useFirebase();
 
   const [books, setBooks] = useState([]);
@@ -29,4 +29,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default BookPage;

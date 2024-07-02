@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { signinWithGoogle, auth, forget_password } from "../context/main";
-// import GoogleIcon from "@mui/icons-material/Google";
+import { signinWithGoogle, auth, forget_password , isLoggedIn} from "../context/main";
+import GoogleIcon from '@mui/icons-material/Google';
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -37,15 +37,25 @@ const Login = ({ onenter, role }) => {
     <section className="flex post flex-col sm:w-3/4  p-4 w-full">
       <h3 className="text-3xl my-2 font-bold "> join now </h3>
       <div className=" my-5 sm: bg-white text-black text-center hover:scale-105 transition-all ease font-semibold outline rounded-2xl ">
+      {role === "signup" ? (
         <button
           className="m-auto capitalize flex p-2 px-6 text-base sm:text-xl "
           onClick={handelgooglesignup}
         >
-          {/* <i className="mx-2">
+          <i className="mx-2">
             <GoogleIcon />{" "}
-          </i> */}
+          </i>
           sign-up with Google
         </button>
+      ):(<button
+        className="m-auto capitalize flex p-2 px-6 text-base sm:text-xl "
+        onClick={signinWithGoogle}
+      >
+        <i className="mx-2">
+          <GoogleIcon />{" "}
+        </i>
+        sign-in with Google
+      </button>)}
       </div>
       <div className="my-4 ">
         <hr />
@@ -118,7 +128,7 @@ const Login = ({ onenter, role }) => {
         <div className="my-2  capitalize text-base sm:text-xl flex flex-col ">
           <label className="my-3">don't have an account ? </label>
           <Link
-            to="/"
+            to="/register"
             className="my-3 w-80 mx-auto border-1 rounded-2xl border text-center font-semibold py-1 text-sky-600 capitalize"
           >
             sign-up

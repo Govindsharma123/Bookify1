@@ -1,6 +1,6 @@
 import { auth, firestore, storage } from "./main";
 import {
-  getFirestore,
+
   collection,
   addDoc,
   getDocs,
@@ -50,6 +50,7 @@ export const Create_Account = async({
   }
 }
 
+
 // export const Create_notification = async (uid, intent) => {
 //   try {
 //     await addDoc(collection(firestore, "notification"), {
@@ -62,22 +63,7 @@ export const Create_Account = async({
 //   }
 // };
 
-// export const get_userdata = async (uid) => {
-//   console.log(uid)
-//   try {
-//     const q = await query(user, where("uid", "==", uid));
-//     const doc_refs = await getDocs(q);
-//     const res = [];
-//     doc_refs.forEach((snapshot) => {
-//       res.push({
-//         ...snapshot.data(),
-//       });
-//     });
-//     return res[0];
-//   } catch (err) {
-//     console.error(err);
-//   }
-// };
+
 export const get_user_data1 = async () => {
   try {
     let user = auth.currentUser;
@@ -171,15 +157,22 @@ export const placeOrder = async (bookId, qty) => {
   return result;
 };
 
-export const fetchMyBooks = async (userId) => {
-  const collectionRef = collection(firestore, "books");
-  console.log(collectionRef)
+export const fetchMyBooks = async (uid) => {
   
-  const q = query(collectionRef, where("userID", "==", userId));
-
-  const result = await getDocs(q);
-  return result;
+  try {
+    if (!uid) {
+      throw new Error("User ID is undefined.");
+    }
+    const booksCollectionRef = collection(firestore, "books");
+    const q = query(booksCollectionRef, where("userID", "==", uid));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot;
+  } catch (err) {
+    console.error("Error fetching user's books:", err);
+    throw err;
+  }
 };
+
 
 export const getOrders = async (bookId) => {
   const collectionRef = collection(firestore, "books", bookId, "orders");
@@ -188,16 +181,28 @@ export const getOrders = async (bookId) => {
 };
 
 export const handleCreateNewListing = async (name, isbn, price, cover) => {
+  try {
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      throw new Error("User not authenticated.");
+    }
   const imageRef = ref(storage, `uploads/images/${Date.now()}-${cover.name}`);
   const uploadResult = await uploadBytes(imageRef, cover);
-  return await addDoc(collection(firestore, "books"), {
+  const newBook = {
     name,
     isbn,
     price,
     imageURL: uploadResult.ref.fullPath,
-    userID: user.uid,
-    userEmail: user.email,
-    displayName: user.displayName,
-    photoURL: user.photoURL,
-  });
+    userID: currentUser.uid,
+    userEmail: currentUser.email,
+    displayName: currentUser.displayName,
+    photoURL: currentUser.photoURL,
+  };
+  await addDoc(collection(firestore, "books"), newBook);
+    console.log("Book added successfully:", newBook);
+    return newBook;
+  } catch (error) {
+    console.error("Error creating new book listing:", error);
+    throw error;
+  }
 };

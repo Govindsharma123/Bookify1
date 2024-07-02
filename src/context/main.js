@@ -44,6 +44,7 @@ export const signinWithGoogle = async() => {
     console.log(err);
   }
 };
+// export const isLoggedIn = () => !!auth.currentUser;
 
 export const signinwithemail = async (email, pass) => {
   try {
@@ -85,6 +86,12 @@ export const forget_password = async (email ) => {
     console.error(err);
   }
 };
+
+//isLoggedIn function
+export const isLoggedIn = () => {
+  return !!auth.currentUser; // Check if user is logged in
+};
+
 
 // Logout function
 export const logout = async () => {

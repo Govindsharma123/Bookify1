@@ -20,6 +20,9 @@ export const UserDataContext = createContext();
 
 
 
+
+
+
 export const useFirebase = () => useContext(UserDataContext);
 
 
@@ -60,7 +63,7 @@ export const FirebaseProvider = (props) => {
   return (
     <UserDataContext.Provider
       value={{
-        isLoggedIn: () => !!auth.currentUser,
+        
         handleCreateNewListing,
         listAllBooks,
         getImageURL,
@@ -69,7 +72,8 @@ export const FirebaseProvider = (props) => {
         fetchMyBooks,
         getOrders,
         logout,
-        get_user_data1
+        get_user_data1,
+        userdata
         
       }}
     >

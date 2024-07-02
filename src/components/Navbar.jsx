@@ -5,25 +5,17 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { useFirebase } from "../context/Firebase";
 import { useNavigate } from "react-router-dom";
+import { auth } from "../context/main";
+import { isLoggedIn, logout } from "../context/main";
 
 const MyNavbar = () => {
-  const { isLoggedIn, logout } = useFirebase();
+  // const { isLoggedIn, logout } = useFirebase();
   const navigate = useNavigate();
-  const [userLoggedIn, setUserLoggedIn] = useState(false);
-  
-  
-  useEffect(() => {
-    const checkLoggedIn = async () => {
-      try {
-        const loggedIn = await isLoggedIn(); // Assuming isLoggedIn is an async function
-        setUserLoggedIn(loggedIn);
-      } catch (error) {
-        console.error("Error checking login status:", error);
-      }
-    };
+  const [userLoggedIn, setUserLoggedIn] = useState(isLoggedIn()); // Initial state based on isLoggedIn
 
-    checkLoggedIn();
-  }, [isLoggedIn]);
+  
+  
+  
 
   const handleLogout = async () => {
     try {
@@ -36,16 +28,24 @@ const MyNavbar = () => {
     }
   };
 
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUserLoggedIn(!!user);
+    });
+
+    return () => unsubscribe(); // Cleanup function
+  }, []);
+
   return (
     <Navbar bg="dark" variant="dark">
       <Container style={{ display: 'flex', justifyContent: 'space-between' }}>
         <Nav className="me-auto">
-          <Nav.Link href="/">Home</Nav.Link>
-          <Nav.Link href="/book/list">Add Listing</Nav.Link>
+          <Nav.Link href="/books">Books</Nav.Link>
+          <Nav.Link href="/book/list">List Book</Nav.Link>
           <Nav.Link href="/book/orders">Orders</Nav.Link>
         </Nav>
         <Nav className="ms-auto">
-          {userLoggedIn ? (
+          {isLoggedIn() ? (
             <button className="btn btn-light" onClick={handleLogout}>Logout</button>
           ) : (
             <>

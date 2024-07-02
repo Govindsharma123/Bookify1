@@ -10,7 +10,7 @@ import RegisterPage from "./pages/Signuppage";
 import CreateAccount from "./pages/create-account";
 import { Loginpage } from "./pages/Loginpage";
 import ListingPage from "./pages/List";
-import HomePage from "./pages/Home";
+import BookPage from "./pages/Books";
 import BookDetailPage from "./pages/Detail";
 import OrdersPage from "./pages/ViewOrder";
 import ViewOrderDetails from "./pages/ViewOrderDetail";
@@ -40,9 +40,9 @@ function App() {
     <div>
       <MyNavbar isLoggedIn={isLoggedIn} />
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/books" element={<BookPage />} />
         <Route path="/login" element={<Loginpage />} />
-        <Route  path="/create-account" element={CreateAccount} />
+        <Route  path="/create-account" element={<CreateAccount/>} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/book/list" element={<ListingPage />} />
         <Route path="/book/view/:bookId" element={<BookDetailPage />} />
@@ -50,11 +50,7 @@ function App() {
         <Route path="/books/orders/:bookId" element={<ViewOrderDetails />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
-      {isLoggedIn ? (
-        <div>Welcome, {user?.displayName || "User"}!</div>
-      ) : (
-        <div>Please log in to access this content.</div>
-      )}
+      
     </div>
   );
 }

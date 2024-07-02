@@ -21,11 +21,16 @@ const BookCard = (props) => {
       
       <Card.Img variant="top" src={url} style={{ height: "200px", objectFit: "cover" }}  />
       <Card.Body>
-        <Card.Title>{props.name}</Card.Title>
-        <Card.Text>
+        <Card.Title>{props.name}
+          <br/>
+         
+        </Card.Title>
+          <Card.Text>
           This book has a title {props.name} and this book is sold by{" "}
-          {props.displayName} <br/> Rs.{props.price }
-        </Card.Text>
+          {props.displayName} <br/> <br/>
+          Rs.{props.price }
+        </Card.Text> 
+        
         <Button onClick={(e) => navigate(props.link)} variant="primary">
           View
         </Button>

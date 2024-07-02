@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useFirebase } from "../context/Firebase";
 import BookCard from "../components/Card";
+import { isLoggedIn } from "../context/main";
 
 
 const OrdersPage = () => {
@@ -9,12 +10,13 @@ const OrdersPage = () => {
 
   useEffect(() => {
     const fetchBooks = async () => {
-      if (firebase.isLoggedIn) {
+      if (isLoggedIn) {
         
         try {
-          const booksSnapshot = await firebase.fetchMyBooks(firebase.user.uid)
-        
-          ?.then(books)
+          console.log(firebase.userdata.uid)
+          const booksSnapshot = await firebase.fetchMyBooks(firebase.userdata.uid) 
+          console.log(booksSnapshot)
+          
           setBooks(booksSnapshot.docs); // Assuming fetchMyBooks returns a Firestore QuerySnapshot
         } catch (error) {
           console.error("Error fetching books:", error);
@@ -24,11 +26,25 @@ const OrdersPage = () => {
 
     fetchBooks();
   }, [firebase]);
+  
+
+  // useEffect(() => {
+  //   const fetchBooks = async () => {
+  //     if (isLoggedIn) {
+  //        await firebase.fetchMyBooks(firebase.userdata.uid)
+  //       console.log(firebase.userdata.uid)
+  //         ?.then((books) => setBooks(books.docs)); 
+  //       } 
+  //     }
+    
+
+  //   fetchBooks();
+  // }, [firebase]);
 
 
-  // console.log(books);
 
-  if (!firebase.isLoggedIn) return <h1>Please log in</h1>;
+
+  // if (!isLoggedIn) return <h1>Please log in</h1>;
 
   return (
     <div style={{ display: "flex", flexWrap: "wrap", gap: "25px", justifyContent: "center" }}>
