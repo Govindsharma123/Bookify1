@@ -1,19 +1,23 @@
 import React from "react";
 import Login from "../components/Login";
 import { Helmet } from "react-helmet";
-import { signinwithemail } from "../context/main";
+// import { signinwithemail } from "../context/main";
 import { useNavigate } from "react-router-dom";
+import { useFirebase } from "../context/Firebase1";
 import { toast } from "react-toastify";
+
 
 export const Loginpage = () => {
   const navigate = useNavigate();
+  const firebase = useFirebase();
   
   const handelsubmit = async (email, pass) => {
-    const data = await signinwithemail(email, pass);
+    const data = await firebase.signinwithemail(email, pass);
     data && toast.success("login successfully ");
-    data && navigate("/books");
+    data && navigate("/");
     !data && toast.error("Email adrress and password may be incorrect");
   };
+
   return (
     <div className="w-full post sm:mt-5 flex p-2 capitalize">
       <Helmet>

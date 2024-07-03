@@ -1,17 +1,20 @@
 import React from "react";
-import { signupwithemail } from "../context/main";
+// import { signupwithemail } from "../context/main";
 import { useNavigate } from "react-router-dom";
+import { useFirebase } from "../context/Firebase1";
 import { Helmet } from "react-helmet";
 import Login from "../components/Login";
 import { toast } from "react-toastify";
 
 const Signuppage = () => {
   const navigate = useNavigate();
+  const firebase = useFirebase();
 
   const handelsubmit = async (email, pass) => {
-    const sigup = await signupwithemail(email, pass);
+    const sigup = await firebase.signupwithemail(email, pass);
     sigup && toast.success("signup successfully ");
-    sigup && navigate("/create-account");
+    // sigup && navigate("/create-account");
+    sigup && navigate("/");
   };
 
   return (

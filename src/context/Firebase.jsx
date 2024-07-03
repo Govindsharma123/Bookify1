@@ -1,88 +1,100 @@
-import { createContext, useContext, useState, useEffect,useCallback } from "react";
+// import { createContext, useContext, useState, useEffect,useCallback } from "react";
 
-import { auth, logout } from "./main";
-import { useNavigate } from "react-router-dom";
-import {
-  getBookById,
-  getImageURL,
-  getOrders,
-  fetchMyBooks,
-  listAllBooks,
-  placeOrder,
-  handleCreateNewListing,
-  get_user_data1,
-  updateuserdata
+// import { auth, logout } from "./main";
+// import { useNavigate } from "react-router-dom";
+// import {
+//   getBookById,
+//   getImageURL,
+//   getOrders,
+//   fetchMyBooks,
+//   listAllBooks,
+//   placeOrder,
+//   handleCreateNewListing,
+//   get_user_data1,
+//   updateuserdata
   
-} from "./database";
-import { toast } from "react-toastify";
+// } from "./database";
+// import { toast } from "react-toastify";
 
-export const UserDataContext = createContext();
-
-
+// export const UserDataContext = createContext();
 
 
 
 
-export const useFirebase = () => useContext(UserDataContext);
+
+
+// export const useFirebase = () => useContext(UserDataContext);
 
 
 
 // const googleProvider = new GoogleAuthProvider();
 
-export const FirebaseProvider = (props) => {
-  const [userdata, setuserdata] = useState(auth.currentUser);
+// export const FirebaseProvider = (props) => {
+//   const [userdata, setuserdata] = useState(auth.currentUser);
 
-  useEffect(() => {
-    const datalogin = async () => {
-      auth.onAuthStateChanged(async (userdata) => {
-        if (userdata) {
-          let data=await get_user_data1()
-          // let data = await get_userdata(userdata?.uid);
-          if (data?.displayName) {
-            setuserdata(data);
-            // setvalue(data);
-          } //else {
-          //   navigate("/register");
-          // }
-        }
-      });
-    };
-    datalogin();
-  }, []);
+//   useEffect(() => {
+//     const datalogin = async () => {
+//       auth.onAuthStateChanged(async (userdata) => {
+//         if (userdata) {
+//           let data=await get_user_data1()
+//           // let data = await get_userdata(userdata?.uid);
+          
+//             setuserdata(data);
+//             // setvalue(data);
+//            //else {
+//           //   navigate("/register");
+//           // }
+//         }
+//       });
+//     };
+//     datalogin();
+//   }, []);
 
-  useEffect(() => {
-    const data = async () => {
-      userdata && (await updateuserdata(userdata));
-    };
-    data();
-  }, [userdata]);
+  
+// // export const FirebaseProvider = (props) => {
+// //   const [userdata, setuserdata] = useState(null);
+
+// //   useEffect(() => {
+// //     auth.onAuthStateChanged(auth, (userdata) => {
+// //       if (userdata) setuserdata(userdata);
+// //       else setuserdata(null);
+// //     });
+// //   }, []);
+
+
+//   useEffect(() => {
+//     const data = async () => {
+//       userdata && (await updateuserdata(userdata));
+//     };
+//     data();
+//   }, [userdata]);
 
 
 
 
-  return (
-    <UserDataContext.Provider
-      value={{
+//   return (
+//     <UserDataContext.Provider
+//       value={{
         
-        handleCreateNewListing,
-        listAllBooks,
-        getImageURL,
-        getBookById,
-        placeOrder,
-        fetchMyBooks,
-        getOrders,
-        logout,
-        get_user_data1,
-        userdata
+//         handleCreateNewListing,
+//         listAllBooks,
+//         getImageURL,
+//         getBookById,
+//         placeOrder,
+//         fetchMyBooks,
+//         getOrders,
+//         logout,
+//         get_user_data1,
+//         userdata
         
-      }}
-    >
-      {props.children}
-    </UserDataContext.Provider>
-  );
-};
+//       }}
+//     >
+//       {props.children}
+//     </UserDataContext.Provider>
+//   );
+// };
 
-export const useUserdatacontext = () => {
-  const value = useContext(UserDataContext);
-  return value;
-};
+// export const useUserdatacontext = () => {
+//   const value = useContext(UserDataContext);
+//   return value;
+// };

@@ -1,33 +1,41 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { signinWithGoogle, auth, forget_password , isLoggedIn} from "../context/main";
+import {   forget_password , isLoggedIn} from "../context/main";
+
 import GoogleIcon from '@mui/icons-material/Google';
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useFirebase} from "../context/Firebase1";
+import { getAuth } from "firebase/auth";
 
 const Login = ({ onenter, role }) => {
+  const firebase = useFirebase();
+  const navigate = useNavigate();
+  const auth = getAuth();
+
   const [email, setemail] = useState("");
   const [pass, setpass] = useState("");
-
-  const navigate = useNavigate();
 
   const handelsubmit = async () => {
     await onenter(email, pass);
   };
 
   const handelgooglesignup = async () => {
-    const data = await signinWithGoogle();
+    const data = await firebase.signinWithGoogle();
 
-    {
-      data && role === "signup"
-        ? navigate("./create-account")
-        : navigate("/");
+    // {
+    //   data && role === "signup"
+    //     ? navigate("./create-account")
+    //     : navigate("/");
+    // }
+    if(data){
+      navigate('/');
     }
   };
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(() => {
-      auth.currentUser && navigate("/");
+      // auth.currentUser && navigate("/");
     });
 
     return () => unsubscribe();
@@ -47,9 +55,10 @@ const Login = ({ onenter, role }) => {
           </i>
           sign-up with Google
         </button>
-      ):(<button
+      ):(<button 
         className="m-auto capitalize flex p-2 px-6 text-base sm:text-xl "
-        onClick={signinWithGoogle}
+        onClick={firebase.signinWithGoogle}
+        
       >
         <i className="mx-2">
           <GoogleIcon />{" "}

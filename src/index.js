@@ -1,12 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import {FirebaseProvider} from "./context/Firebase";
+import { FirebaseProvider } from "./context/Firebase1";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import context from "react-bootstrap/esm/AccordionContext";
-import firebase from "firebase/compat/app";
+
 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

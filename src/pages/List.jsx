@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
-import { useFirebase } from "../context/Firebase";
-import { handleCreateNewListing } from "../context/database";
+import { useFirebase } from "../context/Firebase1";
+
 import { useNavigate } from "react-router-dom";
 
 const ListingPage = () => {
@@ -17,7 +17,6 @@ const ListingPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
     await firebase.handleCreateNewListing(name, isbnNumber, price, coverPic);
     
     Navigate('/book/orders');

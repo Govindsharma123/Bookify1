@@ -19,30 +19,33 @@ import NotFoundPage from "./pages/Notfound";
 // CSS
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
+import HomePage from "./pages/Home";
 
 function App() {
-  const [user, setUser] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [user, setUser] = useState(null);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const auth = getAuth();
+  // const auth = getAuth();
 
-  const handleAuthStateChanged = useCallback((user) => {
-    setUser(user);
-    setIsLoggedIn(!!user);
-  }, []);
+  // const handleAuthStateChanged = useCallback((user) => {
+  //   setUser(user);
+  //   setIsLoggedIn(!!user);
+  // }, []);
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, handleAuthStateChanged);
-    return () => unsubscribe();
-  }, [auth, handleAuthStateChanged]);
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(auth, handleAuthStateChanged);
+  //   return () => unsubscribe();
+  // }, [auth, handleAuthStateChanged]);
 
   return (
     <div>
-      <MyNavbar isLoggedIn={isLoggedIn} />
+      {/* <MyNavbar isLoggedIn={isLoggedIn} /> */}
+      <MyNavbar />
       <Routes>
+        <Route path="/" element={<HomePage/>}/>
         <Route path="/books" element={<BookPage />} />
         <Route path="/login" element={<Loginpage />} />
-        <Route  path="/create-account" element={<CreateAccount/>} />
+        {/* <Route  path="/create-account" element={<CreateAccount/>} /> */}
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/book/list" element={<ListingPage />} />
         <Route path="/book/view/:bookId" element={<BookDetailPage />} />
