@@ -28,7 +28,7 @@ const Login = ({ onenter, role }) => {
       // } else {
       //   navigate('/');
       // }
-      navigate('/')
+      navigate('/home')
     }
   };
 

@@ -18,7 +18,7 @@ export const Loginpage = () => {
     // } else {
     //   toast.error("Email address and password may be incorrect or the user does not exist. Please sign up first.");
     // }
-    if(userCredential){navigate('/')}
+    if(userCredential){navigate('/home')}
   };
   return (
     <div className="w-full post sm:mt-5 flex p-2 capitalize">

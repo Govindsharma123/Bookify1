@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useFirebase } from "../context/Firebase1";
+import { Link } from "react-router-dom";
 
 
 const MyNavbar = () => {
@@ -63,30 +64,30 @@ const MyNavbar = () => {
           {/* Desktop menu links */}
           <div className="hidden sm:block sm:ml-6">
             <div className="flex space-x-4">
-              <a
-                href="/"
+              <Link
+                to="/home"
                 className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300 ease-in-out transform hover:scale-105"
               >
                 Home
-              </a>
-              <a
-                href="/books"
+              </Link>
+              <Link
+                to="/books"
                 className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300 ease-in-out transform hover:scale-105"
               >
                 Books
-              </a>
-              <a
-                href="/book/list"
+              </Link>
+              <Link
+                to="/book/list"
                 className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300 ease-in-out transform hover:scale-105"
               >
                 List Book
-              </a>
-              <a
-                href="/book/orders"
+              </Link>
+              <Link
+                to="/book/orders"
                 className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300 ease-in-out transform hover:scale-105"
               >
                 Orders
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -115,30 +116,30 @@ const MyNavbar = () => {
       {isMobileMenuOpen && (
         <div className="sm:hidden" id="mobile-menu">
           <div className="px-2 pt-2 pb-3 space-y-1">
-            <a
-              href="/"
+            <Link
+              to="/"
               className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition duration-300 ease-in-out transform hover:scale-105"
             >
               Home
-            </a>
-            <a
-              href="/books"
+            </Link>
+            <Link
+              to="/books"
               className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition duration-300 ease-in-out transform hover:scale-105"
             >
               Books
-            </a>
-            <a
-              href="/book/list"
+            </Link>
+            <Link
+              to="/book/list"
               className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition duration-300 ease-in-out transform hover:scale-105"
             >
               List Book
-            </a>
-            <a
-              href="/book/orders"
+            </Link>
+            <Link
+              to="/book/orders"
               className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition duration-300 ease-in-out transform hover:scale-105"
             >
               Orders
-            </a>
+            </Link>
           </div>
         </div>
       )}

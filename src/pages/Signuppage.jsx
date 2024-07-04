@@ -14,7 +14,7 @@ const Signuppage = () => {
     const userCredential = await firebase.signupwithemail(email, pass);
     if (userCredential) {
       toast.success("Signup successful! .");
-      navigate("/");}
+      navigate("/home");}
     // } else {
     //   toast.error("Signup failed. Please try again.");
       

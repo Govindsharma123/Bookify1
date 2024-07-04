@@ -28,11 +28,11 @@ function App() {
       
       <MyNavbar />
       <Routes>
-        <Route path="/" element={<HomePage/>}/>
+        <Route path="/home" element={<HomePage/>}/>
         <Route path="/books" element={<BookPage />} />
         <Route path="/login" element={<Loginpage />} />
         {/* <Route  path="/create-account" element={<CreateAccount/>} /> */}
-        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/" element={<RegisterPage />} />
         <Route path="/book/list" element={<ListingPage />} />
         <Route path="/book/view/:bookId" element={<BookDetailPage />} />
         <Route path="/book/orders" element={<OrdersPage />} />

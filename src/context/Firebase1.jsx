@@ -108,7 +108,7 @@ const signinWithGoogle = async () => {
   try {
     const data = await signInWithPopup(auth, googleProvider);
     toast.success('sign-in successful')
-    navigate('/')
+    navigate('/home')
     return data;
     
   } catch (err) {
@@ -122,7 +122,7 @@ const logOut = async () => {
     await signOut(auth);
     setUser(null); // Clear user state
     toast.error('logout successful')
-    navigate('/login'); // Redirect to  login page
+    navigate('/'); // Redirect to  login page
   } catch (err) {
     console.error("Logout error:", err);
     throw err;
