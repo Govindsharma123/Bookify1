@@ -22,6 +22,10 @@ const ListingPage = () => {
     Navigate('/book/orders');
   };
 
+  if (!firebase.isLoggedIn) return <div className="flex justify-center place-content-center">
+  <h1 >Error-404 <br/> Please log in</h1>;
+  </div>
+  
   return (
     <div className="container mt-5">
       <Form onSubmit={handleSubmit}>

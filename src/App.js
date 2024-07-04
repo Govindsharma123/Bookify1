@@ -1,6 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { useState, useEffect, useCallback } from "react";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+
 
 // Components
 import MyNavbar from "./components/Navbar";
@@ -22,24 +21,11 @@ import "./App.css";
 import HomePage from "./pages/Home";
 
 function App() {
-  // const [user, setUser] = useState(null);
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  // const auth = getAuth();
-
-  // const handleAuthStateChanged = useCallback((user) => {
-  //   setUser(user);
-  //   setIsLoggedIn(!!user);
-  // }, []);
-
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(auth, handleAuthStateChanged);
-  //   return () => unsubscribe();
-  // }, [auth, handleAuthStateChanged]);
+  
 
   return (
     <div>
-      {/* <MyNavbar isLoggedIn={isLoggedIn} /> */}
+      
       <MyNavbar />
       <Routes>
         <Route path="/" element={<HomePage/>}/>

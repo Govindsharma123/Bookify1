@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {   forget_password , isLoggedIn} from "../context/main";
+
 
 import GoogleIcon from '@mui/icons-material/Google';
 import { Link } from "react-router-dom";
@@ -22,14 +22,13 @@ const Login = ({ onenter, role }) => {
 
   const handelgooglesignup = async () => {
     const data = await firebase.signinWithGoogle();
-
-    // {
-    //   data && role === "signup"
-    //     ? navigate("./create-account")
-    //     : navigate("/");
-    // }
-    if(data){
-      navigate('/');
+    if (data) {
+      // if (data.additionalUserInfo.isNewUser) {
+      //   navigate('/register'); // Navigate to a page to complete sign-up if necessary
+      // } else {
+      //   navigate('/');
+      // }
+      navigate('/')
     }
   };
 
@@ -42,7 +41,7 @@ const Login = ({ onenter, role }) => {
   }, []);
 
   return (
-    <section className="flex post flex-col sm:w-3/4  p-4 w-full">
+    <section className="flex post flex-col sm:w-3/4  p-4 w-full h-screen">
       <h3 className="text-3xl my-2 font-bold "> join now </h3>
       <div className=" my-5 sm: bg-white text-black text-center hover:scale-105 transition-all ease font-semibold outline rounded-2xl ">
       {role === "signup" ? (
@@ -107,7 +106,7 @@ const Login = ({ onenter, role }) => {
         >
           {role === "login" ? "login" : "sign-up"}
         </button>
-        {role==="login"&&<button
+        {/* {role==="login"&&<button
           onClick={async () => {
             if (email === "") toast.error("plase enter your email address");
             else {
@@ -121,7 +120,7 @@ const Login = ({ onenter, role }) => {
           type="button"
         >
           Forget password ?
-        </button>}
+        </button>} */}
       </form>
       {role === "signup" ? (
         <div className="my-3  capitalize text-base sm:text-xl flex flex-col ">

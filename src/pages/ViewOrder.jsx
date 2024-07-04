@@ -48,20 +48,6 @@
 
 //     fetchBooks();
 //   }, [firebase]);
-  
-
-//   // useEffect(() => {
-//   //   const fetchBooks = async () => {
-//   //     if (isLoggedIn) {
-//   //        await firebase.fetchMyBooks(firebase.userdata.uid)
-//   //       console.log(firebase.userdata.uid)
-//   //         ?.then((books) => setBooks(books.docs)); 
-//   //       } 
-//   //     }
-    
-
-//   //   fetchBooks();
-//   // }, [firebase]);
 
 
 
@@ -97,29 +83,46 @@ import BookCard from "../components/Card";
 const OrdersPage = () => {
   const firebase = useFirebase();
   const [books, setBooks] = useState([]);
-
-
+  const [loading, setLoading] = useState(true); // Add a loading state
+  
 
   useEffect(() => {
-    if (firebase.isLoggedIn)
-      firebase
-        .fetchMyBooks(firebase.user.uid)
-        ?.then((books) => setBooks(books.docs));
-  }, [firebase]);
+    const fetchBooks = async () => {
+      if (firebase.isLoggedIn && firebase.user) {
+        try {
+          
+          const booksSnapshot = await firebase.fetchMyBooks(firebase.user.uid);
+          const booksData = booksSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+          // console.log("Fetched Books: ", booksData); // Debugging statement
+          setBooks(booksData);
+        } catch (error) {
+          console.error("Error fetching books:", error);
+        }
+      }
+      setLoading(false); // Set loading to false after attempting to fetch books
+    }
+    fetchBooks();
+  }, [firebase, firebase.user]);;
 
-  console.log(books);
+  if (!firebase.isLoggedIn) return <div className="flex justify-center place-content-center">
+      <h1 >Error-404 <br/> Please log in</h1>;
+      </div>
 
-  if (!firebase.isLoggedIn) return <h1>Please log in</h1>;
+  if (loading) return <h1>Loading...</h1>; // Show loading message while fetching books
+
 
   return (
     <div style={{ display: "flex", flexWrap: "wrap", gap: "25px", justifyContent: "center" }}>
       {books.map((book) => (
         <BookCard
-          link={`/books/orders/${book.id}`}
-          key={book.id}
-          id={book.id}
-          {...book}
-        />
+        key={book.id}
+        link={`/books/orders/${book.id}`}
+        id={book.id}
+        name={book.name}
+        price={book.price}
+        imageURL={book.imageURL}
+        displayName={book.displayName}
+      />
       ))}
     </div>
   );

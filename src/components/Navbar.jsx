@@ -9,8 +9,9 @@ import { auth } from "../context/main";
 
 
 const MyNavbar = () => {
-  // const {  logout } = useFirebase();
-  // const navigate = useNavigate();
+  const { logOut } = useFirebase();
+  const navigate = useNavigate();
+  const {isLoggedIn} = useFirebase();
   // const [isLoggedIn, setUserLoggedIn] = useState(false); // Initial state based on isLoggedIn
 
   
@@ -44,18 +45,18 @@ const MyNavbar = () => {
           <Nav.Link href="/books">Books</Nav.Link>
           <Nav.Link href="/book/list">List Book</Nav.Link>
           <Nav.Link href="/book/orders">Orders</Nav.Link>
-          <Nav.Link href="/login">Login</Nav.Link>
+          {/* <Nav.Link href="/login">Login</Nav.Link> */}
         </Nav>
-        {/* <Nav className="ms-auto">
+        <Nav className="ms-auto">
           {isLoggedIn ? (
-            <button className="btn btn-light" onClick={handleLogout}>Logout</button>
-          ) : (
-            <>
-              <Nav.Link href="/login">Login</Nav.Link>
-              <Nav.Link href="/register">SignUp</Nav.Link>
-            </>
-          )}
-        </Nav> */}
+          <>
+            {/* <Nav.Link href="/">Profile</Nav.Link> */}
+            <Nav.Link><button onClick={logOut}>Logout</button></Nav.Link>
+          </>
+        ) : (
+          <Nav.Link href="/login">Login</Nav.Link>
+        )}
+        </Nav>
       </Container>
     </Navbar>
   );
