@@ -1,64 +1,148 @@
-// Navbar.jsx
-import React, { useState, useEffect } from "react";
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
+import React, { useState } from "react";
 import { useFirebase } from "../context/Firebase1";
-import { useNavigate } from "react-router-dom";
-import { auth } from "../context/main";
 
 
 const MyNavbar = () => {
-  const { logOut } = useFirebase();
-  const navigate = useNavigate();
-  const {isLoggedIn} = useFirebase();
-  // const [isLoggedIn, setUserLoggedIn] = useState(false); // Initial state based on isLoggedIn
+  const { logOut, isLoggedIn } = useFirebase();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  
-  
-  
-
-  // const handleLogout = async () => {
-  //   try {
-  //     await logout();
-      
-  //     setUserLoggedIn(false);
-  //     navigate("/login");
-  //   } catch (error) {
-  //     console.error("Logout error:", error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   const unsubscribe = auth.onAuthStateChanged((user) => {
-  //     setUserLoggedIn(!!user);
-  //   });
-
-  //   return () => unsubscribe(); // Cleanup function
-  // }, []);
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
 
   return (
-    <Navbar bg="dark" variant="dark">
-      <Container style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Nav className="me-auto">
-          <Nav.Link href="/">Home</Nav.Link>
-          <Nav.Link href="/books">Books</Nav.Link>
-          <Nav.Link href="/book/list">List Book</Nav.Link>
-          <Nav.Link href="/book/orders">Orders</Nav.Link>
-          {/* <Nav.Link href="/login">Login</Nav.Link> */}
-        </Nav>
-        <Nav className="ms-auto">
-          {isLoggedIn ? (
-          <>
-            {/* <Nav.Link href="/">Profile</Nav.Link> */}
-            <Nav.Link><button onClick={logOut}>Logout</button></Nav.Link>
-          </>
-        ) : (
-          <Nav.Link href="/login">Login</Nav.Link>
-        )}
-        </Nav>
-      </Container>
-    </Navbar>
+    <nav className="bg-gray-800 shadow-lg">
+      <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+        <div className="relative flex items-center justify-between h-16">
+          {/* Mobile menu button */}
+          <button
+            type="button"
+            onClick={toggleMobileMenu}
+            className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white sm:hidden"
+            aria-controls="mobile-menu"
+            aria-expanded={isMobileMenuOpen ? "true" : "false"}
+          >
+            <span className="sr-only">Open main menu</span>
+            {/* Icon when menu is closed */}
+            {!isMobileMenuOpen ? (
+              <svg
+                className="block h-6 w-6"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            ) : (
+              // Icon when menu is open
+              <svg
+                className="block h-6 w-6"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            )}
+          </button>
+
+          {/* Desktop menu links */}
+          <div className="hidden sm:block sm:ml-6">
+            <div className="flex space-x-4">
+              <a
+                href="/"
+                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300 ease-in-out transform hover:scale-105"
+              >
+                Home
+              </a>
+              <a
+                href="/books"
+                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300 ease-in-out transform hover:scale-105"
+              >
+                Books
+              </a>
+              <a
+                href="/book/list"
+                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300 ease-in-out transform hover:scale-105"
+              >
+                List Book
+              </a>
+              <a
+                href="/book/orders"
+                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300 ease-in-out transform hover:scale-105"
+              >
+                Orders
+              </a>
+            </div>
+          </div>
+
+          {/* Right-aligned items */}
+          <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+            {isLoggedIn ? (
+              <button
+                onClick={logOut}
+                className="ml-3 inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition duration-150 ease-in-out"
+              >
+                Logout
+              </button>
+            ) : (
+              <a
+                href="/login"
+                className="ml-3 inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition duration-150 ease-in-out"
+              >
+                Login
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile menu */}
+      {isMobileMenuOpen && (
+        <div className="sm:hidden" id="mobile-menu">
+          <div className="px-2 pt-2 pb-3 space-y-1">
+            <a
+              href="/"
+              className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition duration-300 ease-in-out transform hover:scale-105"
+            >
+              Home
+            </a>
+            <a
+              href="/books"
+              className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition duration-300 ease-in-out transform hover:scale-105"
+            >
+              Books
+            </a>
+            <a
+              href="/book/list"
+              className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition duration-300 ease-in-out transform hover:scale-105"
+            >
+              List Book
+            </a>
+            <a
+              href="/book/orders"
+              className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition duration-300 ease-in-out transform hover:scale-105"
+            >
+              Orders
+            </a>
+          </div>
+        </div>
+      )}
+    </nav>
   );
 };
 

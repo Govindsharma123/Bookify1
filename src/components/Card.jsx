@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
-
 import { useFirebase } from "../context/Firebase1";
 
 const BookCard = (props) => {
@@ -11,9 +8,6 @@ const BookCard = (props) => {
 
   const [url, setURL] = useState(null);
 
-  // useEffect(() => {
-  //   firebase.getImageURL(props.imageURL).then((url) => setURL(url));
-  // }, []);
   useEffect(() => {
     const fetchImageURL = async () => {
       try {
@@ -29,32 +23,31 @@ const BookCard = (props) => {
     }
   }, [firebase, props.imageURL]);
 
-  // console.log(props);
-
   return (
-    <Card style={{width: "18rem", margin: "25px", display: "flex", flexDirection: "column", justifyContent: "space-between"  }}>
-      
-      <Card.Img variant="top" src={url} style={{ height: "200px", objectFit: "cover" }}  />
-      <Card.Body>
-        <Card.Title>{props.name}</Card.Title>
-
-          <Card.Text>
-          This book has a title {props.name} and this book is sold by{" "}
-          {props.displayName} <br/> <br/>
-          Rs.{props.price }
-        </Card.Text> 
-        
-        {/* <Button onClick={(e) => navigate(props.link)} variant="primary"> */}
-        <Button onClick={() => {
-          console.log("Navigating to: ", props.link); // Debugging statement
-          navigate(props.link);
-        }} variant="primary">
+    <div className="max-w-xs w-full m-6 flex flex-col justify-between bg-white shadow-md rounded-lg overflow-hidden">
+      {url && (
+        <img
+          className="w-full h-48 object-cover"
+          src={url}
+          alt={props.name}
+        />
+      )}
+      <div className="p-4 flex flex-col justify-between flex-grow">
+        <div>
+          <h5 className="text-lg font-bold mb-2">{props.name}</h5>
+          <p className="text-sm mb-4">
+            This book has a title {props.name} and this book is sold by {props.displayName}.<br/><br/>
+            Rs.{props.price}
+          </p>
+        </div>
+        <button
+          onClick={() => navigate(props.link)}
+          className="mt-auto px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-300"
+        >
           View
-        </Button>
-      </Card.Body>
-      
-      
-    </Card>
+        </button>
+      </div>
+    </div>
   );
 };
 

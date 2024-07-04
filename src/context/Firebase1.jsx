@@ -9,7 +9,6 @@ import {
   sendEmailVerification,
   signOut,
   onAuthStateChanged,
-  getAdditionalUserInfo
 } from "firebase/auth";
 import {
   getFirestore,
@@ -66,7 +65,7 @@ export const FirebaseProvider = (props) => {
       const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
       const user = userCredential.user;
       await sendEmailVerification(user);
-      toast.success("Signup successful! Please verify your email.");
+      toast.success("Signup successful! ");
       return userCredential;
     } catch (err) {
       console.error(err.code);
@@ -82,22 +81,23 @@ export const FirebaseProvider = (props) => {
 const signinwithemail = async (email, pass) => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, pass);
+    toast.success('Login successful')
     return userCredential;
   }  catch (err) {
     console.error(err);
-    switch (err.code) {
-      case "auth/user-not-found":
-        toast.error("User not found. Please sign up first.");
-        break;
-      case "auth/wrong-password":
-        toast.error("Incorrect password. Please try again.");
-        break;
-      case "auth/invalid-email":
-        toast.error("Invalid email address. Please check your email.");
-        break;
-      default:
-        toast.error("Error during sign-in. Please try again.");
-    }
+    // switch (err.code) {
+    //   case "auth/user-not-found":
+    //     toast.error("User not found. Please sign up first.");
+    //     break;
+    //   case "auth/wrong-password":
+    //     toast.error("Incorrect password. Please try again.");
+    //     break;
+    //   case "auth/invalid-email":
+    //     toast.error("Invalid email address. Please check your email.");
+    //     break;
+    //   default:
+        toast.error("Something went wrong, please check your Email and Password again.");
+    
     return null;
   }
 };
@@ -106,30 +106,14 @@ const navigate = useNavigate();
 
 const signinWithGoogle = async () => {
   try {
-    const result = await signInWithPopup(auth, googleProvider);
-    const additionalUserInfo = getAdditionalUserInfo(result);
-
-    if (additionalUserInfo.isNewUser) {
-      
+    const data = await signInWithPopup(auth, googleProvider);
+    toast.success('sign-in successful')
+    navigate('/')
+    return data;
     
-      toast.success("Google sign-in successful");
-      navigate('/');
-    }
-
-    return result;
   } catch (err) {
     console.error(err);
-    switch (err.code) {
-      case "auth/popup-closed-by-user":
-        toast.error("The popup was closed before completing the sign-in. Please try again.");
-        break;
-      case "auth/cancelled-popup-request":
-        toast.error("Popup sign-in request was cancelled. Please try again.");
-        break;
-      default:
-        toast.error("Error during Google sign-in. Please try again.");
-    }
-    return null;
+      toast.error("Error during Google sign-in. Please try again.");
   }
 };
 // // Logout function
@@ -137,6 +121,7 @@ const logOut = async () => {
   try {
     await signOut(auth);
     setUser(null); // Clear user state
+    toast.error('logout successful')
     navigate('/login'); // Redirect to  login page
   } catch (err) {
     console.error("Logout error:", err);

@@ -13,17 +13,18 @@ const Signuppage = () => {
   const handleSignupSubmit = async (email, pass) => {
     const userCredential = await firebase.signupwithemail(email, pass);
     if (userCredential) {
-      toast.success("Signup successful! Please verify your email.");
-      navigate("/");
-    } else {
-      toast.error("Signup failed. Please try again.");
-    }
+      toast.success("Signup successful! .");
+      navigate("/");}
+    // } else {
+    //   toast.error("Signup failed. Please try again.");
+      
+    // }
   };
 
   return (
     <div className="w-full align-middle my-auto flex post sm:mt-5 p-2 capitalize">
       <Helmet>
-        <title>Sign up | socilaite</title>
+        <title>Sign up | Book-Bank</title>
         <meta name="description" content="sign-up" />
         <link rel="canonical" href="/login" />
         <meta name="robots" content="index, follow" />

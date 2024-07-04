@@ -41,20 +41,10 @@ const Login = ({ onenter, role }) => {
   }, []);
 
   return (
-    <section className="flex post flex-col sm:w-3/4  p-4 w-full h-screen">
+    <section className="flex flex-col  justify-center p-4 w-full min-h-screen sm:w-3/4 sm:mx-auto ">
       <h3 className="text-3xl my-2 font-bold "> join now </h3>
       <div className=" my-5 sm: bg-white text-black text-center hover:scale-105 transition-all ease font-semibold outline rounded-2xl ">
-      {role === "signup" ? (
-        <button
-          className="m-auto capitalize flex p-2 px-6 text-base sm:text-xl "
-          onClick={handelgooglesignup}
-        >
-          <i className="mx-2">
-            <GoogleIcon />{" "}
-          </i>
-          sign-up with Google
-        </button>
-      ):(<button 
+      <button
         className="m-auto capitalize flex p-2 px-6 text-base sm:text-xl "
         onClick={firebase.signinWithGoogle}
         
@@ -62,9 +52,10 @@ const Login = ({ onenter, role }) => {
         <i className="mx-2">
           <GoogleIcon />{" "}
         </i>
-        sign-in with Google
-      </button>)}
+        Continue with Google
+      </button>
       </div>
+      
       <div className="my-4 ">
         <hr />
         <h2 className="text-xl text-center py-2 font-semibold mx-4">
