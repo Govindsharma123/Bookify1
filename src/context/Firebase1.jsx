@@ -19,10 +19,17 @@ import {
   doc,
   query,
   where,
-  
+  deleteDoc
   // updateDoc,
 } from "firebase/firestore";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
+import { 
+  getStorage, 
+  ref, 
+  uploadBytes, 
+  getDownloadURL 
+} from "firebase/storage";
+
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
@@ -32,6 +39,7 @@ const FirebaseContext = createContext(null);
 const firebaseConfig = {
   apiKey: "AIzaSyCwAiZP9tPH-vdFkdZlnSsA9cF-Oa-JHbs",
   authDomain: "bookify-6a80a.firebaseapp.com",
+  databaseURL : "https://bookify-6a80a-default-rtdb.firebaseio.com",
   projectId: "bookify-6a80a",
   storageBucket: "bookify-6a80a.appspot.com",
   messagingSenderId: "1081297312991",
@@ -51,6 +59,7 @@ const googleProvider = new GoogleAuthProvider();
 
 export const FirebaseProvider = (props) => {
   const [user, setUser] = useState(null);
+  const [cart, setCart] = useState([]);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user)=>{
@@ -152,27 +161,31 @@ const getImageURL = (path) => {
   return getDownloadURL(ref(storage, path));
 };
 
-const placeOrder = async (bookId, qty) => {
-  try {
-    const currentUser = auth.currentUser;
-    if (!currentUser) {
-      throw new Error("User not authenticated.");
-    }
-  const collectionRef = collection(firestore, "books", bookId, "orders");
-  const result = await addDoc(collectionRef, {
-    userID: currentUser.uid,
-    userEmail: currentUser.email,
-    displayName: currentUser.displayName,
-    photoURL: currentUser.photoURL,
-    qty: Number(qty),
-  });
-  console.log("Order placed successfully:", result.id);
-  return result;
-}
-catch (error) {
-  console.error("Error placing order:", error);
-  throw error;
-}};
+// const placeOrder = async (bookId, qty=1) => {
+//   try {
+//     const currentUser = auth.currentUser;
+//     if (!currentUser) {
+//       throw new Error("User not authenticated.");
+//     }
+//   const collectionRef = collection(firestore, "books", bookId, "orders");
+//   console.log("collectionref",collectionRef)
+//   const result = await addDoc(collectionRef, {
+//     userID: currentUser.uid,
+//     userEmail: currentUser.email,
+//     displayName: currentUser.displayName,
+//     photoURL: currentUser.photoURL,
+//     qty: Number(qty),
+//   });
+//   console.log("Order placed successfully:", result);
+//   return result;
+// }
+// catch (error) {
+//   console.error("Error placing order:", error);
+//   throw error;
+// }};
+
+
+
 
 const fetchMyBooks = async (userId) => {
  
@@ -195,7 +208,6 @@ const getOrders = async (bookId) => {
   try {
     const q = query(collection(firestore, "books", bookId, "orders"));
     const ordersSnapshot = await getDocs(q);
-    console.log("Orders Snapshot:", ordersSnapshot.docs); // Log the documents received
 
     return ordersSnapshot; // Return the QuerySnapshot
   } catch (error) {
@@ -226,6 +238,8 @@ const handleCreateNewListing = async (name, isbn, price, cover) => {
     return newBook;
 };
 
+
+
 const isLoggedIn = user ? true : false;
 
 return (
@@ -239,11 +253,12 @@ return (
       listAllBooks,
       getImageURL,
       getBookById,
-      placeOrder,
+      // placeOrder,
       fetchMyBooks,
       getOrders,
       user,
-      logOut
+      logOut,
+      
     
     }}
   >
@@ -256,3 +271,4 @@ export const useFirebasecontext = () => {
   const value = useContext(FirebaseContext);
   return value;
 };
+export default firebaseApp;

@@ -3,7 +3,6 @@ import Login from "../components/Login";
 import { Helmet } from "react-helmet";
 import { useNavigate } from "react-router-dom";
 import { useFirebase } from "../context/Firebase1";
-import { toast } from "react-toastify";
 import photo from "../assests/logo.jpg";
 
 export const Loginpage = () => {

@@ -1,97 +1,24 @@
-// import React, { useEffect, useState } from "react";
-// import Button from "react-bootstrap/Button";
-// import Form from "react-bootstrap/Form";
-// import { useParams } from "react-router-dom";
-// import { useFirebase } from "../context/Firebase";
-// import { getFirestore, collection, addDoc } from "firebase/firestore";
-// const firestore = getFirestore();
-
-
-// const BookDetailPage = () => {
-//   const params = useParams();
-//   const firebase = useFirebase();
-
-
-//   const [qty, setQty] = useState(1);
-
-//   const [data, setData] = useState(null);
-//   const [url, setURL] = useState(null);
-
-//   console.log(data);
-
-//   useEffect(() => {
-//     firebase.getBookById(params.bookId).then((value) => setData(value.data()));
-//   }, []);
-
-//   useEffect(() => {
-//     if (data) {
-//       const imageURL = data.imageURL;
-//       firebase.getImageURL(imageURL).then((url) => setURL(url));
-//     }
-//   }, [data]);
-
-
-//   const placeOrder = async () => {
-//     try {
-//       const ordersCollection = collection(firestore, "books", params.bookId, "orders");
-//       const order = {
-//         qty,
-//         timestamp: new Date(),
-//         userID: firebase.userdata.uid, // Assuming you have a way to get the userID
-//         // Add other order details as needed
-//       };
-//       const docRef = await addDoc(ordersCollection, order);
-//       console.log("Order Placed", docRef.id);
-//     } catch (error) {
-//       console.error("Error placing order: ", error);
-//     }
-//   };
-
-//   if (data == null) return <h1>Loading...</h1>;
-
-//   return (
-//     <div className="container mt-5">
-//       <h1>{data.name}</h1>
-//       <img src={url}  width="50%"style={{ borderRadius: "10px" }} />
-//       <h1>Details</h1>
-//       <p>Price: Rs. {data.price}</p>
-//       <p>ISBN Number. {data.isbn}</p>
-//       <h1>Owner Details</h1>
-//       <p>Name: {data.displayName}</p>
-//       <p>Email: {data.userEmail}</p>
-//       <Form.Group className="mb-3" controlId="formBasicPassword">
-//         <Form.Label>Qty</Form.Label>
-//         <Form.Control
-//           onChange={(e) => setQty(e.target.value)}
-//           value={qty}
-//           type="Number"
-//           placeholder="Enter Qty"
-//         />
-//       </Form.Group>
-//       <Button onClick={placeOrder} variant="success">
-//         Buy Now
-//       </Button>
-//     </div>
-//   );
-// };
-
-// export default BookDetailPage;
 import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+
 import { useParams } from "react-router-dom";
 import { useFirebase } from "../context/Firebase1";
+import { useCart } from "../context/CartContext";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
 
 
 const BookDetailPage = () => {
   const params = useParams();
   const firebase = useFirebase();
+  const {addToCart} = useCart();
+  const navigate = useNavigate();
 
-  const [qty, setQty] = useState(1);
+  // const [qty, setQty] = useState(1);
   const [data, setData] = useState(null);
   const [url, setURL] = useState(null);
 
-  console.log(data);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -123,15 +50,24 @@ const BookDetailPage = () => {
     }
   }, [data, firebase]);
 
-
-  const placeOrder = async () => {
+  const handleAddToCart = async() => {
     try {
-      const result = await firebase.placeOrder(params.bookId, qty);
-      console.log("Order Placed", result);
-    } catch (error) {
-      console.error("Error placing order:", error);
-    }
-  };
+      const cartItem = {
+        ...data,
+        imageURL: url,
+      }; 
+     await addToCart(cartItem);
+    toast.success("book added to cart");
+    navigate('/cart');
+    console.log("added to cart" );
+  }
+   catch(error){
+    console.log("error in adding to cart", error)
+   }
+  }
+
+
+  
   if (data == null) return <h1>Loading...</h1>;
 
   return (
@@ -155,7 +91,7 @@ const BookDetailPage = () => {
       <h1>Owner Details</h1>
       <p>Name: {data.displayName}</p>
       <p>Email: {data.userEmail}</p>
-      <Form.Group className="mb-3" controlId="formBasicPassword">
+      {/* <Form.Group className="mb-3" controlId="formBasicPassword">
         <Form.Label>Qty</Form.Label>
         <Form.Control
           onChange={(e) => setQty(e.target.value)}
@@ -163,9 +99,9 @@ const BookDetailPage = () => {
           type="Number"
           placeholder="Enter Qty"
         />
-      </Form.Group>
-      <Button onClick={placeOrder} variant="success">
-        Buy Now
+      </Form.Group> */}
+      <Button onClick={handleAddToCart} variant="success">
+        Add to Cart
       </Button>
     </div>
   );

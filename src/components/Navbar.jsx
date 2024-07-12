@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useFirebase } from "../context/Firebase1";
 import { Link } from "react-router-dom";
-
+import { IoCartOutline } from "react-icons/io5";
 
 const MyNavbar = () => {
   const { logOut, isLoggedIn } = useFirebase();
@@ -93,6 +93,12 @@ const MyNavbar = () => {
 
           {/* Right-aligned items */}
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+          <Link
+                to="/cart"
+                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-medium transition duration-300 ease-in-out transform hover:scale-125"
+              >
+                <IoCartOutline/>
+              </Link>
             {isLoggedIn ? (
               <button
                 onClick={logOut}
@@ -101,12 +107,12 @@ const MyNavbar = () => {
                 Logout
               </button>
             ) : (
-              <a
-                href="/login"
+              <Link
+                to="/login"
                 className="ml-3 inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition duration-150 ease-in-out"
               >
                 Login
-              </a>
+              </Link>
             )}
           </div>
         </div>

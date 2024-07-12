@@ -12,7 +12,6 @@ const ViewOrderDetails = () => {
     const fetchOrders = async () => {
       try {
         const ordersSnapshot = await firebase.getOrders(params.bookId);
-        console.log("Orders Snapshot:", ordersSnapshot.docs);
 
         // Check if ordersSnapshot.docs is not empty
         if (ordersSnapshot.docs.length > 0) {

@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 
 import GoogleIcon from '@mui/icons-material/Google';
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
 import { useFirebase} from "../context/Firebase1";
 import { getAuth } from "firebase/auth";
 
@@ -127,7 +126,7 @@ const Login = ({ onenter, role }) => {
         <div className="my-2  capitalize text-base sm:text-xl flex flex-col ">
           <label className="my-3">don't have an account ? </label>
           <Link
-            to="/register"
+            to="/"
             className="my-3 w-80 mx-auto border-1 rounded-2xl border text-center font-semibold py-1 text-sky-600 capitalize"
           >
             sign-up

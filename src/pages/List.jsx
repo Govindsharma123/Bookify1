@@ -8,18 +8,25 @@ import { useNavigate } from "react-router-dom";
 
 const ListingPage = () => {
   const firebase = useFirebase();
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [name, setName] = useState("");
   const [isbnNumber, setIsbnNumber] = useState("");
   const [price, setPrice] = useState("");
   const [coverPic, setCoverPic] = useState(null);
-
+  const [loading, setLoading] = useState(false);
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await firebase.handleCreateNewListing(name, isbnNumber, price, coverPic);
-    
-    Navigate('/book/orders');
+    setLoading(true); // Set loading state to true
+    try {
+      await firebase.handleCreateNewListing(name, isbnNumber, price, coverPic);
+      navigate('/book/orders');
+    } catch (error) {
+      console.error("Error creating listing:", error);
+    } finally {
+      setLoading(false); // Set loading state to false
+    }
   };
 
   if (!firebase.isLoggedIn) return <div className="flex justify-center place-content-center">

@@ -2,6 +2,7 @@ import React from "react"
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { FirebaseProvider } from "./context/Firebase1";
+import { CartProvider } from "./context/CartContext"; // Import the CartProvider
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
@@ -13,7 +14,9 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <FirebaseProvider>
-        <App />
+        <CartProvider>
+          <App />
+        </CartProvider>        
         <ToastContainer />
       </FirebaseProvider>
     </BrowserRouter>
