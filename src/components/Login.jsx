@@ -19,17 +19,7 @@ const Login = ({ onenter, role }) => {
     await onenter(email, pass);
   };
 
-  const handelgooglesignup = async () => {
-    const data = await firebase.signinWithGoogle();
-    if (data) {
-      // if (data.additionalUserInfo.isNewUser) {
-      //   navigate('/register'); // Navigate to a page to complete sign-up if necessary
-      // } else {
-      //   navigate('/');
-      // }
-      navigate('/home')
-    }
-  };
+  
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(() => {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 // import { signupwithemail } from "../context/main";
 import { useNavigate } from "react-router-dom";
 import { useFirebase } from "../context/Firebase1";
@@ -9,6 +9,13 @@ import photo from '../assests/logo.jpg'
 const Signuppage = () => {
   const navigate = useNavigate();
   const firebase = useFirebase();
+
+  const {logout, isLoggedIn} = useFirebase();
+
+  if(isLoggedIn){
+    navigate('/home');
+  }
+
 
   const handleSignupSubmit = async (email, pass) => {
     const userCredential = await firebase.signupwithemail(email, pass);

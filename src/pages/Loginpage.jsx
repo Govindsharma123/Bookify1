@@ -8,6 +8,12 @@ import photo from "../assests/logo.jpg";
 export const Loginpage = () => {
   const navigate = useNavigate();
   const firebase = useFirebase();
+
+  const {logout, isLoggedIn} = useFirebase();
+
+  if(isLoggedIn){
+    navigate('/home');
+  }
   
   const handleLoginSubmit = async (email, pass) => {
     const userCredential = await firebase.signinwithemail(email, pass);
