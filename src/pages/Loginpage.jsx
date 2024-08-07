@@ -20,7 +20,10 @@ export const Loginpage = () => {
     if(userCredential){navigate('/home')}
   };
   return (
+    
     <div className="w-full post sm:mt-5 flex p-2 capitalize">
+
+     
       <Helmet>
         <title>login | Book-Bank</title>
         <meta name="description" content="login" />

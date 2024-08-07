@@ -11,6 +11,13 @@ const MyNavbar = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+
+  // Render nothing if the user is not logged in
+  if (!isLoggedIn) {
+  
+    return null;
+  }
+
   return (
     <nav className="bg-gray-800 shadow-lg">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -99,21 +106,12 @@ const MyNavbar = () => {
               >
                 <IoCartOutline/>
               </Link>
-            {isLoggedIn ? (
               <button
                 onClick={logOut}
                 className="ml-3 inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition duration-150 ease-in-out"
               >
                 Logout
               </button>
-            ) : (
-              <Link
-                to="/login"
-                className="ml-3 inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition duration-150 ease-in-out"
-              >
-                Login
-              </Link>
-            )}
           </div>
         </div>
       </div>

@@ -34,7 +34,7 @@ const Signuppage = () => {
         <meta name="language" content="EN" />
       </Helmet>
 
-      <div className=" m-auto outline xl:block hidden  outline-gray-900">
+      <div className=" m-auto outline xl:block hidden  outline-gray-900">    
         <img
           className="w-80"
           src={photo}
